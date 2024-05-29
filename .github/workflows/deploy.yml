@@ -1,47 +1,61 @@
 name: "Deploy App"
 
 on: 
-workflow_dispatch:
-  inputs:
-    loglevel:
-      description: 'Log level'
-      required: true
-      default: 'warning'
-    tags:
-      description: 'Tags'
-      required: false
-      default: 'Manual Tag'
+  workflow_dispatch:
+    inputs:
+      loglevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Tags'
+        required: false
+        default: 'Manual Tag'
   push:
     tags:
       - "WpfBoilerplate/v*"
 
-env:
-  PROJECT_PATH : WpfBoilerplate/WpfBoilerplate.csproj
-
 jobs:
   deploy:
+    strategy:
+      matrix: 
+        configuration: [Debug, Release]
+    
     runs-on: windows-latest
+
+    env:
+      Solution_Name: WpfBoilerplate.sln
+      PROJECT_PATH:  WpfBoilerplate/WpfBoilerplate.csproj
+    
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-      - name: Restore Dependencies    
-        run: dotnet restore ${{ env.PROJECT_PATH }}
-      - name: Build
-        run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
-      - name: Publish
-        run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true --no-build	  
-      - uses: actions/create-release@v4
-	id: ReleaseAction
-	env:
-	  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-	    with:
-	      tag_name: ${{ github.ref }}
-	      release_name: ${{ github.ref }}
-	  
-   - uses: csexton/release-asset-action@v2
-	    with:
-	      github_token: ${{ secrets_GITHUB_TOKEN }}
-	      pattern: WpfBoilerplate/bin/Release/dotnet8.0-windows/win-x64/publish/*.exe
-	      release-url: ${{ steps.ReleaseAction.outputs.upload_url }}
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Setup DotNet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+  
+    - name: Restore Dependencies    
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+      env:
+        Configuration: ${{ matrix.configuration }}
+    - name: Build
+      run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
+    - name: Publish
+      run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true --no-build	  
+    - uses: actions/create-release@v4
+      id: ReleaseAction
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+   
+    - uses: csexton/release-asset-action@v2
+      with:
+        github_token: ${{ secrets_GITHUB_TOKEN }}
+        pattern: WpfBoilerplate/bin/Release/dotnet8.0-windows/win-x64/publish/*.exe
+        release-url: ${{ steps.ReleaseAction.outputs.upload_url }}
