@@ -28,7 +28,9 @@ jobs:
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
-  
+
+    - name: Restore
+      run: dotnet restore ${{ env.PROJECT_PATH }}$
     - name: Restore Dependencies    
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
