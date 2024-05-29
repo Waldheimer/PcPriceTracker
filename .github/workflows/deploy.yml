@@ -2,15 +2,6 @@ name: "Deploy App"
 
 on: 
   workflow_dispatch:
-    inputs:
-      loglevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-      tags:
-        description: 'Tags'
-        required: false
-        default: 'Manual Tag'
   push:
     tags:
       - "WpfBoilerplate/v*"
