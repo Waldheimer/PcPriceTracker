@@ -45,7 +45,7 @@ jobs:
         tag_name: ${{ github.ref }}
         release_name: ${{ github.ref }}
    
-    - uses: csexton/release-asset-action@v2
+    - uses: csexton/release-asset-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         pattern: WpfBoilerplate/bin/Release/dotnet8.0-windows/win-x64/publish/*.exe
