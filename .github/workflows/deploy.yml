@@ -47,6 +47,6 @@ jobs:
    
     - uses: csexton/release-asset-action@v2
       with:
-        github_token: ${{ secrets_GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         pattern: WpfBoilerplate/bin/Release/dotnet8.0-windows/win-x64/publish/*.exe
         release-url: ${{ steps.ReleaseAction.outputs.upload_url }}
