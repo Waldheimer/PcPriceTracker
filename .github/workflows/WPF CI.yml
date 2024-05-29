@@ -1,4 +1,4 @@
-name:  Wpf Continuous Integration
+aname:  Wpf Continuous Integration
 
 on:
   push:
@@ -71,7 +71,7 @@ jobs:
       env:
         AppxBundle: Never
         BuildMode: SideloadOnly
-        Configuration: Debug
+        Configuration: Release
         TargetPlatform: ${{ matrix.targetplatform }}
 
     - name: Upload build artifacts
