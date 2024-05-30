@@ -65,14 +65,16 @@ jobs:
       env:
         Configuration: Debug
         RuntimeIdentifier: win-${{ matrix.targetplatform }}
-
-    - name: Build the Windows Application Packaging Project (wapproj)
-      run: msbuild $env:Solution_Path /p:Platform=$env:TargetPlatform /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:BuildMode /p:AppxBundle=$env:AppxBundle
-      env:
-        AppxBundle: Never
-        BuildMode: SideloadOnly
-        Configuration: Release
-        TargetPlatform: ${{ matrix.targetplatform }}
+    - name: Build DotNet
+      uses: Elskom/build-dotnet@v1.1.1
+      
+    #- name: Build the Windows Application Packaging Project (wapproj)
+    #  run: msbuild $env:Solution_Path /p:Platform=$env:TargetPlatform /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:BuildMode /p:AppxBundle=$env:AppxBundle
+    #  env:
+    #    AppxBundle: Never
+    #    BuildMode: SideloadOnly
+    #    Configuration: Release
+    #    TargetPlatform: ${{ matrix.targetplatform }}
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4.3.3
