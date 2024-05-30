@@ -10,12 +10,8 @@ namespace WpfBoilerplate
     /// </summary>
     public partial class App : Application
     {
-        //  IHost for DependencyInjection
         IHost host;
 
-        //  *****************************************************************************
-        //  App-Constructor to Setup the DI-Host and register MainWindow and its ViewModel
-        //  *****************************************************************************
         public App()
         {
             host = Host.CreateDefaultBuilder().ConfigureServices(services =>
@@ -28,9 +24,6 @@ namespace WpfBoilerplate
             }).Build();
         }
 
-        //  *****************************************************************************
-        //  Start the DI-Host, Create and Show the MainWindow when the Application starts
-        //  *****************************************************************************
         protected override void OnStartup(StartupEventArgs e)
         {
             host.StartAsync();
@@ -42,9 +35,6 @@ namespace WpfBoilerplate
             base.OnStartup(e);
         }
 
-        //  *****************************************************************************
-        //  Stop the DI-Host when the Application closes
-        //  *****************************************************************************
         protected override void OnExit(ExitEventArgs e)
         {
             host.StopAsync();

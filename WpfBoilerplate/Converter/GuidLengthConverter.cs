@@ -9,9 +9,6 @@ namespace WpfBoilerplate.Converter
 
     public class GuidLengthConverter : IValueConverter
     {
-        //  *************************************
-        //  Convert the Guid to a 8 char String followed by ... to reduce GUI space
-        //  *************************************
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Guid guid = (Guid)value;
