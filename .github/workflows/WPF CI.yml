@@ -21,11 +21,11 @@ jobs:
     env:
       App_Packages_Directory: AppPackages
       SigningCertificate: GitHubActionsDemo.pfx
-      Solution_Path: WpfBoilerplate.sln
-      # Test_Project_Path: WpfBoilerplate.Tests\WpfBoilerplate.Tests.csproj
-      Wpf_Project_Path: WpfBoilerplate\WpfBoilerplate.csproj
-      Wap_Project_Directory: WpfBoilerplate.Package
-      Wap_Project_Name: WpfBoilerplate.Package.wapproj
+      Solution_Path: PcPriceTracker.sln
+      # Test_Project_Path: PcPriceTracker.Tests\PcPriceTracker.Tests.csproj
+      Wpf_Project_Path: PcPriceTracker\PcPriceTracker.csproj
+      Wap_Project_Directory: PcPriceTracker.Package
+      Wap_Project_Name: PcPriceTracker.Package.wapproj
       Actions_Allow_Unsecure_Commands: true
 
     steps:
